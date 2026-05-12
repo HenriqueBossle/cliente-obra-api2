@@ -18,7 +18,7 @@ class ConstructionController extends Controller
     public function store(StoreConstructionRequest $request)
     {
         $construction = Construction::create($request->validated());
-        return new ConstructionResource($construction);
+        return response()->json($construction, 201);
     }
 
     public function show(Construction $construction)

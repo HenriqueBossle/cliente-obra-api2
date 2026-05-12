@@ -22,12 +22,7 @@ class Construction extends Model
         "status",
         "volume",
         "date",
-        "notes",  
-        'user_id'
+        "notes"
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
