@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConstructionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Http\Request;
@@ -13,4 +14,8 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-Route::apiResource('constructions', ConstructionController::class)->except(['create', 'edit']);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::apiResource('constructions', ConstructionController::class)->except(['create', 'show' ,'edit']);

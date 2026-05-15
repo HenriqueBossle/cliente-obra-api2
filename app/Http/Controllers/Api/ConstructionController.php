@@ -9,6 +9,12 @@ use App\Models\Construction;
 
 class ConstructionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Construction::class, 'construction');
+    }
+
     public function index()
     {
         $constructions = Construction::all();
