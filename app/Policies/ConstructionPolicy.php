@@ -7,18 +7,28 @@ use App\Models\User;
 
 class ConstructionPolicy
 {
-    public function view(User $user, Construction $construction)
+    public function viewAny(User $user): bool
     {
-        return $user->id === $construction->user_id;
+        return true;
     }
 
-    public function update(User $user, Construction $construction)
+    public function view(User $user, Construction $construction): bool
     {
-        return $user->id === $construction->user_id;
+        return true;
     }
 
-    public function delete(User $user, Construction $construction)
+    public function create(User $user): bool
     {
-        return $user->id === $construction->user_id;
+        return true;
+    }
+
+    public function update(User $user, Construction $construction): bool
+    {
+        return true;
+    }
+
+    public function delete(User $user, Construction $construction): bool
+    {
+        return true;
     }
 }

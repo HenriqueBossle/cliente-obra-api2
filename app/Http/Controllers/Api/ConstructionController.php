@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreConstructionRequest;
 use App\Http\Resources\ConstructionResource;
 use App\Models\Construction;
+use Illuminate\Http\Request;
 
 class ConstructionController extends Controller
 {
@@ -15,10 +16,14 @@ class ConstructionController extends Controller
         $this->authorizeResource(Construction::class, 'construction');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $constructions = Construction::all();
-        return ConstructionResource::collection($constructions);
+    $constructions = Construction::where(
+        'user_id',
+        $request->user()->id
+    )->get();
+
+    return ConstructionResource::collection($constructions);
     }
 
     public function store(StoreConstructionRequest $request)
@@ -29,12 +34,14 @@ class ConstructionController extends Controller
 
     public function show(Construction $construction)
     {
+
         return new ConstructionResource($construction);   
     }
 
     public function update(StoreConstructionRequest $request, Construction $construction)
     {
         $construction->update($request->validated());
+
         return new ConstructionResource($construction);
     }
 

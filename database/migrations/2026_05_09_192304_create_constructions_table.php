@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('constructions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('construction_name')->nullable(); // Nome da obra
             $table->string('builder_name')->nullable(); // Nome construtor
             $table->string('builder_phone')->nullable();

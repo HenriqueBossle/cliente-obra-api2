@@ -34,7 +34,8 @@ class StoreConstructionRequest extends FormRequest
             'status' => ['required', 'string'],
             'volume' => ['required', 'numeric'],
             'date' => ['required', 'date'],
-            'notes' => ['nullable', 'string']
+            'notes' => ['nullable', 'string'],
+            'user_id' => ['required', 'numeric']
         ];
     }
 }
