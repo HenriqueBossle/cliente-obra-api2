@@ -14,7 +14,8 @@ class ConstructionPolicy
 
     public function view(User $user, Construction $construction): bool
     {
-        return true;
+        return $user->id === $construction->user_id;
+
     }
 
     public function create(User $user): bool
@@ -24,11 +25,12 @@ class ConstructionPolicy
 
     public function update(User $user, Construction $construction): bool
     {
-        return true;
+        return $user->id === $construction->user_id;
+
     }
 
     public function delete(User $user, Construction $construction): bool
     {
-        return true;
+        return $user->id === $construction->user_id;
     }
 }
