@@ -1,16 +1,39 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConstructionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+
+// Públicas
+Route::middleware('throttle:8,1')->group(function () {
+
+    Route::post('/register', [AuthController::class, 'register']);
+
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
-Route::get('/', function () {
-    return ['Laravel' => app()->version()];
-});
+// Privadas
+Route::middleware('auth:sanctum')->group(function () {
 
-Route::apiResource('constructions', ConstructionController::class)->except(['create', 'edit']);
+    Route::middleware('throttle:60,1')->group(function () {
+
+        Route::get('/constructions', [ConstructionController::class, 'index']);
+
+        Route::get('/constructions/{construction}', [ConstructionController::class, 'show']);
+
+    });
+
+
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::apiResource('constructions', ConstructionController::class)
+        ->except(['index', 'show']);
+
+
+});
