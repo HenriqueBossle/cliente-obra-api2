@@ -26,7 +26,8 @@ class ConstructionResource extends JsonResource
             'type' => $this->type,
             'status' => $this->status,
             'volume' => $this->volume,
-            'date' => $this->date,
+            'start_date' => $this->start_date,
+            'finish_date' => $this->finish_date,
             'notes' => $this->notes,
             'user_id' => $this->user_id
         ];

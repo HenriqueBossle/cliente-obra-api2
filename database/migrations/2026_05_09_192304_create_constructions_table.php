@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('type')->nullable(); // Tipo da obra
             $table->string('status')->nullable(); // Em andamento, finalizada, etc.
             $table->decimal('volume', 8, 2)->nullable(); // Volume (ex: 120.50 m3)
-            $table->date('date')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('finish_date')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });
