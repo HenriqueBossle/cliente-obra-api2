@@ -33,7 +33,8 @@ class StoreConstructionRequest extends FormRequest
             'type' => ['nullable','string'],
             'status' => ['nullable','string'],
             'volume' => ['nullable','numeric'],
-            'date' => ['nullable','date'],
+            'start_date' => ['nullable','date'],
+            'finish_date' => ['nullable','date'],
             'notes' => ['nullable','string'],
         ];
     }
