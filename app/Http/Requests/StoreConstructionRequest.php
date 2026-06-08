@@ -16,6 +16,17 @@ class StoreConstructionRequest extends FormRequest
     }
 
     /**
+    * Prepare input data before validation.
+    */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'start_date' => $this->input('startDate') ?? $this->input('start_date'),
+            'finish_date' => $this->input('finishDate') ?? $this->input('finish_date'),
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
@@ -33,7 +44,8 @@ class StoreConstructionRequest extends FormRequest
             'type' => ['nullable','string'],
             'status' => ['nullable','string'],
             'volume' => ['nullable','numeric'],
-            'date' => ['nullable','date'],
+            'start_date' => ['nullable','date'],
+            'finish_date' => ['nullable','date'],
             'notes' => ['nullable','string'],
         ];
     }

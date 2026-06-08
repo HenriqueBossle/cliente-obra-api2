@@ -21,7 +21,8 @@ class Construction extends Model
         "type",
         "status",
         "volume",
-        "date",
+        "start_date",
+        "finish_date",
         "notes",
         "user_id"
     ];
