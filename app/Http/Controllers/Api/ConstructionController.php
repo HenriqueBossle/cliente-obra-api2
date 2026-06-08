@@ -24,15 +24,21 @@ class ConstructionController extends Controller
         $request->user()->id
     )->get();
 
+        dd($constructions->toArray());
+
+
     return ConstructionResource::collection($constructions);
     }
 
     public function store(StoreConstructionRequest $request, Construction $construction)
     {
         $data = $request->validated();
+        // Ensure the date fields are present; log the payload for debugging
+        logger()->debug('Construction Store - validated data', $data);
         $data['user_id'] = $request->user()->id;
 
         $construction = Construction::create($data);
+        logger()->debug('Construction Store - created model', $construction->toArray());
         return response()->json($construction, 201);
     }
 
