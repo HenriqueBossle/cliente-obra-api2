@@ -19,6 +19,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('throttle:60,1')->group(function () {
 
+
+        Route::get(
+            '/constructions/pdf',
+            [ConstructionController::class, 'generateAllPdf']
+        );
+
+        Route::get(
+            '/constructions/{construction}/pdf',
+            [ConstructionController::class, 'generatePdf']
+        );
+        
         Route::get('/constructions', [ConstructionController::class, 'index']);
 
         Route::get('/constructions/{construction}', [ConstructionController::class, 'show']);

@@ -9,6 +9,8 @@ use App\Http\Resources\ConstructionResource;
 use App\Models\Construction;
 use Illuminate\Http\Request;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class ConstructionController extends Controller
 {
 
@@ -24,7 +26,7 @@ class ConstructionController extends Controller
         $request->user()->id
     )->get();
 
-        dd($constructions->toArray());
+        // dd($constructions->toArray());
 
 
     return ConstructionResource::collection($constructions);
@@ -60,5 +62,32 @@ class ConstructionController extends Controller
     {
         $construction->delete();
         return response(null, 204);
+    }
+
+    public function generatePdf(Construction $construction)
+    {
+        $this->authorize('view', $construction);
+
+        $pdf = Pdf::loadView('pdf.construction', [
+            'construction' => $construction
+        ]);
+
+        return $pdf->download(
+            "obra-{$construction->id}.pdf"
+        );
+    }
+
+    public function generateAllPdf(Request $request)
+    {
+        $constructions = Construction::where(
+            'user_id',
+            $request->user()->id
+        )->get();
+
+        $pdf = Pdf::loadView('pdf.constructions', [
+            'constructions' => $constructions
+        ]);
+
+        return $pdf->download('relatorio-obras.pdf');
     }
 }
