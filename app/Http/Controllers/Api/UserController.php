@@ -50,24 +50,23 @@ class UserController extends Controller
     /**
      * Exclui a conta do usuário autenticado.
      */
+
+
     public function destroy(Request $request)
     {
         $request->validate([
-            'password' => ['required']
+            'password' => ['required', 'string', 'current_password'],
         ]);
 
         $user = $request->user();
 
-        if (!Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Senha incorreta.'
-            ], 401);
-        }
+        // Revoga tokens (Sanctum)
+        $user->tokens()->delete();
 
         $user->delete();
 
         return response()->json([
             'message' => 'Conta excluída com sucesso.'
-        ]);
+        ], 200);
     }
 }
