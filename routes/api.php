@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConstructionController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/constructions', [ConstructionController::class, 'index']);
 
         Route::get('/constructions/{construction}', [ConstructionController::class, 'show']);
+
+        Route::get('/profile', [UserController::class, 'show']);
+
+        Route::put('/profile', [UserController::class, 'update']);
+
+        Route::put('/profile/password', [UserController::class, 'updatePassword']);
+    
+        // Rota para deletar o perfil
+        Route::delete('/profile', [UserController::class, 'destroy']);
 
     });
 
