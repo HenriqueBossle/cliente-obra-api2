@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -49,14 +50,22 @@ class UserController extends Controller
     /**
      * Exclui a conta do usuário autenticado.
      */
+
+
     public function destroy(Request $request)
     {
+        $request->validate([
+            'password' => ['required', 'string', 'current_password'],
+        ]);
+
         $user = $request->user();
+
+        // Revoga tokens (Sanctum)
+        $user->tokens()->delete();
 
         $user->delete();
 
         return response()->json([
-            'status' => true,
             'message' => 'Conta excluída com sucesso.'
         ], 200);
     }
