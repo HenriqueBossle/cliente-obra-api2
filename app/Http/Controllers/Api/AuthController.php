@@ -24,8 +24,7 @@ class AuthController extends Controller
         // 3. Verifica se o usuário existe e se a senha está correta
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['As credenciais fornecidas estão incorretas.'],
-                'password' => ['A senha deve conter pelo menos 8 caracteres.']
+                'email' => ['As credenciais fornecidas estão incorretas.']
             ]);
         }
 
