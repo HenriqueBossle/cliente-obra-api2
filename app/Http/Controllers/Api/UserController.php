@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -51,13 +52,22 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
+        $request->validate([
+            'password' => ['required']
+        ]);
+
         $user = $request->user();
+
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Senha incorreta.'
+            ], 401);
+        }
 
         $user->delete();
 
         return response()->json([
-            'status' => true,
             'message' => 'Conta excluída com sucesso.'
-        ], 200);
+        ]);
     }
 }
