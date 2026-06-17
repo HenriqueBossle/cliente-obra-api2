@@ -1,4 +1,4 @@
-#🔧 Cliente Obra API
+# 🔧 Cliente Obra API
 
 API REST desenvolvida em Laravel para gerenciamento de usuários e obras.
 
@@ -10,6 +10,7 @@ Laravel Sanctum,
 Eloquent ORM,
 
 ✨ Funcionalidades
+
 Usuários:
 Cadastro,
 Login,
