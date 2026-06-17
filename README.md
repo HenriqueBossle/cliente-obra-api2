@@ -1,3 +1,30 @@
+#🔧 Cliente Obra API
+
+API REST desenvolvida em Laravel para gerenciamento de usuários e obras.
+
+🚀 Tecnologias
+Laravel,
+PHP,
+MySQL,
+Laravel Sanctum,
+Eloquent ORM,
+
+✨ Funcionalidades
+Usuários:
+Cadastro,
+Login,
+Logout,
+Atualização de perfil,
+Alteração de senha,
+Exclusão de conta,
+
+Obras:
+Criar obra,
+Listar obras,
+Visualizar obra específica,
+Atualizar obra,
+Excluir obra,
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
