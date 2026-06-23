@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConstructionController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,14 @@ Route::middleware('auth:sanctum')->group(function () {
             '/constructions/{construction}/pdf',
             [ConstructionController::class, 'generatePdf']
         );
+
+
+        Route::get(
+            '/verify-email/{id}/{hash}',
+            VerifyEmailController::class
+        )
+            ->middleware(['signed'])
+            ->name('verification.verify');
         
         Route::get('/constructions', [ConstructionController::class, 'index']);
 
