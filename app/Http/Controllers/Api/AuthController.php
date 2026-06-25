@@ -64,12 +64,40 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-        $token = $user->createToken('react-app')->plainTextToken;
 
         return response()->json([
             'user' => $user,
-            'token' => $token,
             'message' => 'Usuário registrado com sucesso! Verifique seu e-mail para ativar a conta.'
         ], 201);
+    }
+
+    public function resendVerification(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email']
+        ]);
+
+        $user = User::where(
+            'email',
+            $request->email
+        )->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuário não encontrado.'
+            ], 404);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'E-mail já verificado.'
+            ], 400);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'E-mail de verificação reenviado.'
+        ]);
     }
 }

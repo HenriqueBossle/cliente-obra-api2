@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConstructionController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +15,47 @@ Route::middleware('throttle:8,1')->group(function () {
 
     Route::post('/login', [AuthController::class, 'login']);
 });
+
+
+    Route::get('/verify-email/{id}/{hash}', function (
+        Request $request,
+        $id,
+        $hash
+    ) {
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuário não encontrado'
+            ], 404);
+        }
+
+        if (! hash_equals(
+            sha1($user->getEmailForVerification()),
+            $hash
+        )) {
+            return response()->json([
+                'message' => 'Link inválido'
+            ], 403);
+        }
+
+        if (! $user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        return response()->json([
+            'message' => 'Email verificado com sucesso'
+        ]);
+
+    })
+    ->middleware('signed')
+    ->name('verification.verify');
+
+    Route::post(
+        '/email/resend-verification',
+        [AuthController::class, 'resendVerification']
+    );
 
 // Privadas
 Route::middleware('auth:sanctum')->group(function () {
@@ -31,14 +72,6 @@ Route::middleware('auth:sanctum')->group(function () {
             '/constructions/{construction}/pdf',
             [ConstructionController::class, 'generatePdf']
         );
-
-
-        Route::get(
-            '/verify-email/{id}/{hash}',
-            VerifyEmailController::class
-        )
-            ->middleware(['signed'])
-            ->name('verification.verify');
         
         Route::get('/constructions', [ConstructionController::class, 'index']);
 
