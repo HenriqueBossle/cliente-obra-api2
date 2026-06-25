@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -27,6 +28,12 @@ class AuthController extends Controller
             throw ValidationException::withMessages([
                 'email' => ['As credenciais fornecidas estão incorretas.']
             ]);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Verifique seu e-mail antes de fazer login'
+            ], 403);
         }
 
         // 4. Gera o token do Sanctum
@@ -55,11 +62,42 @@ class AuthController extends Controller
             'password' => \Illuminate\Support\Facades\Hash::make($request->password)
         ]);
 
-        $token = $user->createToken('react-app')->plainTextToken;
+        event(new Registered($user));
+
 
         return response()->json([
             'user' => $user,
-            'token' => $token
+            'message' => 'Usuário registrado com sucesso! Verifique seu e-mail para ativar a conta.'
         ], 201);
+    }
+
+    public function resendVerification(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email']
+        ]);
+
+        $user = User::where(
+            'email',
+            $request->email
+        )->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuário não encontrado.'
+            ], 404);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'E-mail já verificado.'
+            ], 400);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'E-mail de verificação reenviado.'
+        ]);
     }
 }
