@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-// Públicas
 Route::middleware('throttle:8,1')->group(function () {
 
     Route::post('/register', [AuthController::class, 'register']);
