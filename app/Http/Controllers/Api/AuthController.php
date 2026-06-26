@@ -54,7 +54,7 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logout realizado com sucesso'], 200);
     }
 
-    /*public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request)
     {
         $user = \App\Models\User::create([
             'name' => $request->name,
@@ -69,26 +69,6 @@ class AuthController extends Controller
             'user' => $user,
             'message' => 'Usuário registrado com sucesso! Verifique seu e-mail para ativar a conta.'
         ], 201);
-    }*/
-
-    public function register(RegisterRequest $request)
-    {
-        $user = \App\Models\User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => \Illuminate\Support\Facades\Hash::make($request->password)
-        ]);
-
-        try {
-            event(new \Illuminate\Auth\Events\Registered($user));
-        } catch (\Exception $e) {
-            return response()->json([
-                'erro'   => $e->getMessage(),
-                'classe' => get_class($e),
-            ], 500);
-        }
-
-        return response()->json(['message' => 'ok'], 201);
     }
 
     public function resendVerification(Request $request)
