@@ -66,12 +66,17 @@ class AuthController extends Controller
         try {
             event(new Registered($user));
         } catch (\Throwable $e) {
-        return response()->json([
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ], 500);
+            return response()->json([
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ], 500);
         }
+
+        return response()->json([
+            'user' => $user,
+            'message' => 'Usuário registrado com sucesso! Verifique seu e-mail para ativar a conta.'
+        ], 201);
     }
 
     public function resendVerification(Request $request)
