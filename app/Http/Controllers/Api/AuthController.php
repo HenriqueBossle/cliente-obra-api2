@@ -62,13 +62,16 @@ class AuthController extends Controller
             'password' => \Illuminate\Support\Facades\Hash::make($request->password)
         ]);
 
-        event(new Registered($user));
 
-
+        try {
+            event(new Registered($user));
+        } catch (\Throwable $e) {
         return response()->json([
-            'user' => $user,
-            'message' => 'Usuário registrado com sucesso! Verifique seu e-mail para ativar a conta.'
-        ], 201);
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ], 500);
+        }
     }
 
     public function resendVerification(Request $request)
