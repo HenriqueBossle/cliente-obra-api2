@@ -6,41 +6,42 @@ use Illuminate\Support\Facades\Http;
 
 class BrevoService
 {
+   
     public static function sendVerificationEmail(
-        string $email,
-        string $name,
-        string $url
-    ) {
+    string $email,
+    string $name,
+    string $url
+) {
+    $response = Http::withHeaders([
+        'api-key' => env('BREVO_KEY'),
+        'accept' => 'application/json',
+        'content-type' => 'application/json',
+    ])->post('https://api.brevo.com/v3/smtp/email', [
 
-        return Http::withHeaders([
-            'api-key' => env('BREVO_KEY'),
-            'accept' => 'application/json',
-            'content-type' => 'application/json',
-        ])->post('https://api.brevo.com/v3/smtp/email', [
+        'sender' => [
+            'name' => env('MAIL_FROM_NAME'),
+            'email' => env('MAIL_FROM_ADDRESS'),
+        ],
 
-            'sender' => [
-                'name' => env('MAIL_FROM_NAME'),
-                'email' => env('MAIL_FROM_ADDRESS'),
-            ],
+        'to' => [
+            [
+                'email' => $email,
+                'name' => $name,
+            ]
+        ],
 
-            'to' => [
-                [
-                    'email' => $email,
-                    'name' => $name,
-                ]
-            ],
+        'subject' => 'Confirme seu e-mail',
 
-            'subject' => 'Confirme seu e-mail',
+        'htmlContent' => "
+            <h2>Bem-vindo!</h2>
+            <a href='$url'>Confirmar Email</a>
+        "
+    ]);
 
-            'htmlContent' => "
-                <h2>Bem-vindo!</h2>
-
-                <p>Clique no botão abaixo.</p>
-
-                <a href='$url'>
-                    Confirmar Email
-                </a>
-            "
-        ]);
-    }
+    return [
+        'status' => $response->status(),
+        'body' => $response->json(),
+        'raw' => $response->body(),
+    ];
+}
 }
