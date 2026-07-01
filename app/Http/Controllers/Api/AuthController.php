@@ -78,11 +78,13 @@ class AuthController extends Controller
             ]
         );
 
-        BrevoService::sendVerificationEmail(
+        $result = BrevoService::sendVerificationEmail(
             $user->email,
             $user->name,
             $link
         );
+
+        return response()->json($result);
     }
 
     public function resendVerification(Request $request)
