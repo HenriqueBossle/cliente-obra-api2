@@ -9,6 +9,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\URL;
+use App\Services\BrevoService;
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -44,7 +46,11 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user
         ], 200);
+
+    
     }
+
+   
 
     public function logout(Request $request)
     {
@@ -63,20 +69,20 @@ class AuthController extends Controller
         ]);
 
 
-        try {
-            event(new Registered($user));
-        } catch (\Throwable $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ], 500);
-        }
+        $link = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            [
+                'id' => $user->id,
+                'hash' => sha1($user->email),
+            ]
+        );
 
-        return response()->json([
-            'user' => $user,
-            'message' => 'Usuário registrado com sucesso! Verifique seu e-mail para ativar a conta.'
-        ], 201);
+        BrevoService::sendVerificationEmail(
+            $user->email,
+            $user->name,
+            $link
+        );
     }
 
     public function resendVerification(Request $request)
