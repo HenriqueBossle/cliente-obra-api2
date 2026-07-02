@@ -83,8 +83,6 @@ class AuthController extends Controller
             $user->name,
             $link
         );
-
-        return redirect('http://localhost:5173/email-verified');
     }
 
     public function resendVerification(Request $request)
