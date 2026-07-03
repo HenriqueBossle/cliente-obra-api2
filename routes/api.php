@@ -25,9 +25,7 @@ Route::middleware('throttle:8,1')->group(function () {
         $user = User::find($id);
 
         if (!$user) {
-            return response()->json([
-                'message' => 'Usuário não encontrado'
-            ], 404);
+            return view('controllers.auth.verify-success');
         }
 
         if (! hash_equals(

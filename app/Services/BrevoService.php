@@ -35,11 +35,17 @@ class BrevoService
             'htmlContent' => "
                 <h2>Bem-vindo!</h2>
 
-                <p>Clique no botão abaixo.</p>
+                <h3>Muito Obrigado por se cadastrar no ClienteObra</h3>
+
+                <p>Clique no botão para confirmar seu e-mail.</p>
+
+                <p>Se você não solicitou este cadastro, ignore este e-mail.</p>
 
                 <a href='$url'>
                     Confirmar Email
                 </a>
+
+                <p>© 2026 ClienteObra. Todos os direitos reservados.</p>
             "
 
             
