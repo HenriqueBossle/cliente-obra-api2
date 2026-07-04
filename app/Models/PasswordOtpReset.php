@@ -18,6 +18,10 @@ class PasswordOtpReset extends Model
         'expires_at',
     ];
 
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
+
     /** @var array */
     protected $dates = [
         'expires_at',
