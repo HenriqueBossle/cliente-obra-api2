@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConstructionController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -96,4 +97,15 @@ Route::middleware('auth:sanctum')->group(function () {
         ->except(['index', 'show']);
 
 
+});
+
+Route::prefix('auth')->group(function () {
+    // 1️⃣ Solicitar código OTP
+    Route::post('forgot-password', [PasswordResetController::class, 'forgotPassword'])
+        ->middleware('throttle:5,1')   // 5 requisições por minuto por IP
+        ->name('auth.forgot-password');
+    // 2️⃣ Redefinir senha usando OTP
+    Route::post('reset-password', [PasswordResetController::class, 'resetPassword'])
+        ->middleware('throttle:5,1')
+        ->name('auth.reset-password');
 });
