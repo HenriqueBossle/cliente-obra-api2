@@ -84,26 +84,17 @@ class PasswordResetController extends Controller
         }
 
         // 2. Busca registro OTP válido.
-$otpRecord = PasswordOtpReset::where('email', $email)
-    ->valid()
-    ->first();
+        $otpRecord = PasswordOtpReset::where('email', $email)
+            ->valid()
+            ->first();
 
-if (!$otpRecord) {
-    return $this->invalidResponse();
-}
+        if (!$otpRecord) {
+            return $this->invalidResponse();
+        }
 
-return response()->json([
-    'laravel' => app()->version(),
-    'php' => PHP_VERSION,
-    'model' => get_class($otpRecord),
-    'expires_at' => $otpRecord->expires_at,
-    'expires_at_type' => get_debug_type($otpRecord->expires_at),
-    'raw_original' => $otpRecord->getRawOriginal('expires_at'),
-    'casts' => $otpRecord->getCasts(),
-]);
 
-// 3. Verifica expiração (fallback caso o escopo falhe)
-if ($otpRecord->isExpired()) {
+        // 3. Verifica expiração (fallback caso o escopo falhe)
+        if ($otpRecord->isExpired()) {
 
         $otpRecord->delete();
             return $this->invalidResponse();
@@ -125,7 +116,7 @@ if ($otpRecord->isExpired()) {
             ['message' => 'Senha alterada com sucesso.'],
             Response::HTTP_OK
         );
-    }
+    } 
 
     /**
      * Resposta JSON uniforme para falhas de validação de OTP.
