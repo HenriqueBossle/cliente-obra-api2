@@ -116,7 +116,7 @@ class PasswordResetController extends Controller
             ['message' => 'Senha alterada com sucesso.'],
             Response::HTTP_OK
         );
-    }
+    } 
 
     /**
      * Resposta JSON uniforme para falhas de validação de OTP.
