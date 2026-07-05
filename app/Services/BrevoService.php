@@ -55,7 +55,7 @@ class BrevoService
 
      public static function sendOtp(
         string $email,
-        string $opt
+        string $otp
     ) {
 
         return Http::withHeaders([
@@ -82,7 +82,7 @@ class BrevoService
 
                 <p>Insira o codigo abaixo no site para recuperar a senha</p>
 
-                <p>$opt</p>
+                <p>$otp</p>
 
                 <p>O codigo expira em 15 minutos</p>
                     
