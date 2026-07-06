@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConstructionController;
+use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Models\User;
@@ -71,6 +72,8 @@ Route::middleware('auth:sanctum')->group(function () {
             '/constructions/{construction}/pdf',
             [ConstructionController::class, 'generatePdf']
         );
+
+        Route::post('/feedback', [FeedbackController::class, 'store']);
         
         Route::get('/constructions', [ConstructionController::class, 'index']);
 
