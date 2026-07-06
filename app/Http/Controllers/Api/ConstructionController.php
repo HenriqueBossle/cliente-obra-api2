@@ -77,6 +77,27 @@ class ConstructionController extends Controller
         );
     }
 
+    public function search(Request $request)
+    {
+        $search = trim($request->input('search'));
+
+        $constructions = Construction::where('user_id', $request->user()->id)
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('construction_name', 'ilike', "%{$search}%")
+                        ->orWhere('builder_name', 'ilike', "%{$search}%")
+                        ->orWhere('cpf_cnpj', 'ilike', "%{$search}%")
+                        ->orWhere('sitemanager_name', 'ilike', "%{$search}%")
+                        ->orWhere('address', 'ilike', "%{$search}%")
+                        ->orWhere('type', 'ilike', "%{$search}%")
+                        ->orWhere('status', 'ilike', "%{$search}%");
+                });
+            })
+            ->get();
+
+        return ConstructionResource::collection($constructions);
+    }
+
     public function generateAllPdf(Request $request)
     {
         $constructions = Construction::where(

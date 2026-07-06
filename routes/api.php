@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('throttle:60,1')->group(function () {
 
+        Route::get('constructions/search', [ConstructionController::class, 'search']);
 
         Route::get(
             '/constructions/pdf',
