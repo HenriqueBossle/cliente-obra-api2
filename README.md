@@ -1,86 +1,54 @@
-# 🔧 Cliente Obra API
+# 🏗️ Cliente Obra API
 
-API REST desenvolvida em Laravel para gerenciamento de usuários e obras.
+API REST desenvolvida em **Laravel** para gerenciamento de **usuários** e **obras** (cadastro de obras com dados do construtor, gestor de obra, volumes de concreto/argamassa, datas, status e geração de relatórios em PDF).
 
-🚀 Tecnologias
-Laravel,
-PHP,
-MySQL,
-Laravel Sanctum,
-Eloquent ORM,
+A autenticação é feita com **Laravel Sanctum** (tokens Bearer), com **verificação de e-mail** obrigatória antes do login e **recuperação de senha via código OTP** enviado por e-mail (Brevo).
 
-✨ Funcionalidades
+---
 
-Usuários:
-Cadastro,
-Login,
-Logout,
-Atualização de perfil,
-Alteração de senha,
-Exclusão de conta,
+## 🚀 Tecnologias
 
-Obras:
-Criar obra,
-Listar obras,
-Visualizar obra específica,
-Atualizar obra,
-Excluir obra,
+## 🚀 Tecnologias
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+| Tecnologia | Badge | Uso |
+|---|---|---|
+| Laravel 13 | ![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white) | Framework PHP |
+| PHP 8.3 | ![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php&logoColor=white) | Linguagem |
+| Laravel Sanctum | ![Sanctum](https://img.shields.io/badge/Sanctum-4.0-FF2D20?logo=laravel&logoColor=white) | Autenticação via API tokens |
+| PostgreSQL / SQLite | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white) | Banco de dados |
+| laravel-dompdf | ![DomPDF](https://img.shields.io/badge/DomPDF-3.1-0F766E) | Geração de PDFs |
+| Brevo | ![Brevo](https://img.shields.io/badge/Brevo-0B996E?logo=brevo&logoColor=white) | E-mails transacionais (verificação e OTP) |
+| Eloquent ORM | ![Eloquent](https://img.shields.io/badge/Eloquent-ORM-FF2D20?logo=laravel&logoColor=white) | Camada de dados |
+| Docker | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) | Containerização |
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## ✨ Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 🔐 Autenticação e usuários
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Cadastro de usuário com **envio de e-mail de verificação** (link assinado válido por 60 min)
+- Reenvio de e-mail de verificação
+- Login (exige e-mail verificado) gerando **token Sanctum** por dispositivo (`device_name`)
+- Logout (revoga o token atual)
+- Visualização e atualização do perfil
+- Alteração de senha
+- Exclusão de conta (confirma com a senha atual e revoga todos os tokens)
+- **Recuperação de senha por OTP**: código de 6 dígitos enviado por e-mail, válido por 15 minutos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🏗️ Obras (Constructions)
 
-## Learning Laravel
+- Criar, listar, visualizar, atualizar e excluir obras
+- Cada usuário acessa **apenas suas próprias obras** (autorização via Policy)
+- **Busca textual** por nome da obra, construtor, CPF/CNPJ, gestor, endereço, tipo e status
+- **Geração de PDF**: relatório de uma obra ou de todas as obras do usuário
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 💬 Feedback
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Envio de feedback/sugestão vinculado ao usuário autenticado
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### 🛡️ Segurança
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
-```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Rate limiting: 8 req/min em login/registro, 60 req/min nas rotas autenticadas, 5 req/min nas rotas de OTP
+- Respostas genéricas na recuperação de senha (não revela se o e-mail existe)
+- Senhas com `bcrypt`, hash de OTP no banco, expiração de códigos
