@@ -4,6 +4,10 @@ API REST desenvolvida em **Laravel** para gerenciamento de **usuários** e **obr
 
 A autenticação é feita com **Laravel Sanctum** (tokens Bearer), com **verificação de e-mail** obrigatória antes do login e **recuperação de senha via código OTP** enviado por e-mail (Brevo).
 
+🔗 Link do deploy: https://cliente-obra-api2-frontend.vercel.app/
+
+🔗 Repositório do front-end: https://github.com/HenriqueBossle/cliente-obra-api2-frontend
+
 ---
 
 ## 🚀 Tecnologias
