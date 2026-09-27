@@ -8,8 +8,6 @@ A autenticação é feita com **Laravel Sanctum** (tokens Bearer), com **verific
 
 ## 🚀 Tecnologias
 
-## 🚀 Tecnologias
-
 | Tecnologia | Badge | Uso |
 |---|---|---|
 | Laravel 13 | ![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white) | Framework PHP |
