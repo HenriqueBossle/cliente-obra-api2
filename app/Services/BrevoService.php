@@ -33,16 +33,14 @@ class BrevoService
             'subject' => 'Confirme seu e-mail',
 
             'htmlContent' => "
-                <h2>Bem-vindo!</h2>
+                <h2>Confirme seu e-mail</h2>
 
-                <h3>Muito Obrigado por se cadastrar no ClienteObra</h3>
+                <p>Clique no botão para confirmar este endereço de e-mail.</p>
 
-                <p>Clique no botão para confirmar seu e-mail.</p>
-
-                <p>Se você não solicitou este cadastro, ignore este e-mail.</p>
+                <p>Se você não solicitou esta confirmação, ignore este e-mail.</p>
 
                 <a href='$url'>
-                    Confirmar Email
+                    Confirmar e-mail
                 </a>
 
                 <p>© 2026 ClienteObra. Todos os direitos reservados.</p>

@@ -21,6 +21,7 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'email',
                 Rule::unique('users')->ignore($this->user()->id),
+                Rule::unique('users', 'pending_email')->ignore($this->user()->id),
             ],
         ];
     }

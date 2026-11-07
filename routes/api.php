@@ -51,6 +51,13 @@ Route::middleware('throttle:8,1')->group(function () {
     ->middleware('signed')
     ->name('verification.verify');
 
+    Route::get(
+        '/verify-pending-email/{id}/{hash}',
+        [UserController::class, 'verifyPendingEmail']
+    )
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.pending-email');
+
     Route::post(
         '/email/resend-verification',
         [AuthController::class, 'resendVerification']
