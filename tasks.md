@@ -12,10 +12,9 @@ Este arquivo registra o backlog do projeto e os achados da revisão de seguranç
 
 ### Média
 
-- [ ] **Exigir nova verificação ao alterar o e-mail do perfil**
-  - **Evidência:** `app/Http/Controllers/Api/UserController.php:30` persiste o e-mail atualizado, e `app/Http/Requests/UpdateUserRequest.php:20-23` permite informar outro endereço sem um fluxo de verificação associado.
-  - **Risco:** o endereço novo pode permanecer marcado como verificado e receber códigos de recuperação de senha. Um invasor com acesso à sessão/token poderia persistir o controle da conta após alterar o e-mail.
-  - **Ação:** invalidar o estado de verificação ao mudar o e-mail e exigir confirmação do novo endereço antes de usá-lo para login ou recuperação da conta.
+- [x] **Exigir nova verificação ao alterar o e-mail do perfil**
+  - **Correção:** o endereço atual continua sendo usado até a confirmação do novo; o fluxo armazena o endereço pendente, envia um link assinado com expiração e só então atualiza o e-mail e o estado de verificação.
+  - **Validação:** testes de API cobrem a alteração pendente, a confirmação assinada e a rejeição de um hash inválido.
 
 ## Backlog
 
