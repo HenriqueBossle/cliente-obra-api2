@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidCpfCnpj;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,7 +27,7 @@ class UpdateConstructionRequest extends FormRequest
             'construction_name' => ['nullable','string', 'max:255'],
             'builder_name' => ['nullable','string', 'max:255'],
             'builder_phone' => ['nullable','string'],
-            'cpf_cnpj' => ['nullable','string'],
+            'cpf_cnpj' => ['nullable', new ValidCpfCnpj()],
             'sitemanager_name' => ['nullable','string'],
             'sitemanager_phone' => ['nullable','string'],
             'address' => ['nullable','string'],
